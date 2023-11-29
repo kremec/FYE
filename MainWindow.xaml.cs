@@ -1,9 +1,6 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -11,7 +8,7 @@ namespace FYE
 {
     public partial class MainWindow : Window
     {
-        ElectricityData newData = new ElectricityData();
+        OmrežninaPodatki podatki = new OmrežninaPodatki();
 
         public MainWindow()
         {
@@ -31,12 +28,12 @@ namespace FYE
 
         private void ImportJSONButton_Click(object sender, RoutedEventArgs e)
         {
-            ImportMeasurementsJson(newData);
+            ImportMeasurementsJson(podatki);
         }
-        private void ImportMeasurementsJson(ElectricityData newData)
+        private void ImportMeasurementsJson(OmrežninaPodatki newData)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Open JSON data files";
+            openFileDialog.Title = "Uvozi JSON datoteke s podatki omrežnin";
             openFileDialog.Filter = "Json files (*.json)|*.json";
             openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == true)
@@ -46,7 +43,7 @@ namespace FYE
         }
         private void LoadMeasurementsJson(List<string> filePaths)
         {
-            newData = new ElectricityData();
+            podatki = new OmrežninaPodatki();
 
             if (Properties.Settings.Default.ImportJsonLocations == null)
                 Properties.Settings.Default.ImportJsonLocations = new System.Collections.Specialized.StringCollection();
@@ -61,55 +58,55 @@ namespace FYE
                     using (StreamReader sr = File.OpenText(filePath))
                     {
                         string jsonString = sr.ReadToEnd();
-                        var oldDataBetter = JsonConvert.DeserializeObject<ElectricityData>(jsonString);
-                        if (oldDataBetter != null && oldDataBetter.Measurements != null)
+                        var oldDataBetter = JsonConvert.DeserializeObject<OmrežninaPodatki>(jsonString);
+                        if (oldDataBetter != null && oldDataBetter.MeritveMoč != null)
                         {
-                            newData.Measurements.AddRange(oldDataBetter.Measurements);
-                            newData.RegisterMax_1003 = Math.Max(newData.RegisterMax_1003, oldDataBetter.RegisterMax_1003);
-                            newData.RegisterMin_1003 = newData.RegisterMin_1003 == 0 ? oldDataBetter.RegisterMin_1003 : Math.Min(newData.RegisterMin_1003, oldDataBetter.RegisterMin_1003);
-                            newData.RegisterSum_1003 += oldDataBetter.RegisterSum_1003;
+                            podatki.MeritveMoč.AddRange(oldDataBetter.MeritveMoč);
+                            podatki.MaxMoč_1003 = Math.Max(podatki.MaxMoč_1003, oldDataBetter.MaxMoč_1003);
+                            podatki.MinMoč_1003 = podatki.MinMoč_1003 == 0 ? oldDataBetter.MinMoč_1003 : Math.Min(podatki.MinMoč_1003, oldDataBetter.MinMoč_1003);
+                            podatki.VsotaMoč_1003 += oldDataBetter.VsotaMoč_1003;
                         }
 
                         var oldDataDefault = JsonConvert.DeserializeObject<ElektroMeritve>(jsonString);
                         if (oldDataDefault != null && oldDataDefault.data != null)
                         {
-                            newData.Measurements.AddRange(from oldMeasurement in oldDataDefault.data.meritve
-                                                          let newMeasurement = new ElectricityMeasurement() { Date = oldMeasurement.datum, Measurement_1003 = oldMeasurement.registri._1003 }
+                            podatki.MeritveMoč.AddRange(from oldMeasurement in oldDataDefault.data.meritve
+                                                          let newMeasurement = new MeritevMoč() { Čas = oldMeasurement.datum, Meritev_1003 = oldMeasurement.registri._1003 }
                                                           where oldMeasurement.datum.Date <= DateTime.Today
                                                           select newMeasurement);
-                            newData.RegisterMax_1003 = Math.Max(newData.RegisterMax_1003, oldDataDefault.data.registerMaxValue._1003);
-                            newData.RegisterMin_1003 = newData.RegisterMin_1003 == 0 ? oldDataDefault.data.registerMinValue._1003 : Math.Min(newData.RegisterMin_1003, oldDataDefault.data.registerMinValue._1003);
-                            newData.RegisterSum_1003 += oldDataDefault.data.vsotaRegistrov._1003;
+                            podatki.MaxMoč_1003 = Math.Max(podatki.MaxMoč_1003, oldDataDefault.data.registerMaxValue._1003);
+                            podatki.MinMoč_1003 = podatki.MinMoč_1003 == 0 ? oldDataDefault.data.registerMinValue._1003 : Math.Min(podatki.MinMoč_1003, oldDataDefault.data.registerMinValue._1003);
+                            podatki.VsotaMoč_1003 += oldDataDefault.data.vsotaRegistrov._1003;
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("The file in location: " + filePath + " does not exist!\nRemoving it from default import list.", "ERROR");
+                    MessageBox.Show("Datoteka na lokaciji: " + filePath + " ne obstaja več!", "ERROR");
                     return;
                 }
             }
 
-            if (newData.Measurements.Count > 0)
+            if (podatki.MeritveMoč.Count > 0)
             {
-                newData.DateTimeFrom = newData.Measurements.Min(measurement => measurement.Date);
-                newData.DateTimeTo = newData.Measurements.Max(measurement => measurement.Date);
+                podatki.ČasOd = podatki.MeritveMoč.Min(measurement => measurement.Čas);
+                podatki.ČasDo = podatki.MeritveMoč.Max(measurement => measurement.Čas);
             }
         }
 
         private void ExportJSONButton_Click(object sender, RoutedEventArgs e)
         {
-            if (newData.Measurements.Count > 0)
-                ExportBetterMeasurementsJson(newData);
+            if (podatki.MeritveMoč.Count > 0)
+                ExportBetterMeasurementsJson(podatki);
             else
-                MessageBox.Show("Cannot export JSON as there is no data to be exported! Import new data files!", "ERROR");
+                MessageBox.Show("Izvozitev JSON ni možna, uvozite nove podatke!", "ERROR");
         }
-        private void ExportBetterMeasurementsJson(ElectricityData newData)
+        private void ExportBetterMeasurementsJson(OmrežninaPodatki newData)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Title = "Save JSON in better format";
+            saveFileDialog.Title = "Izvozitev JSON podatkov";
             saveFileDialog.Filter = "Json files (*.json)|*.json";
-            saveFileDialog.FileName = "ElectricityData_" + newData.DateTimeFrom.ToString("dd-MM-yyyy") + "_" + newData.DateTimeTo.ToString("dd-MM-yyyy");
+            saveFileDialog.FileName = "ElectricityData_" + newData.ČasOd.ToString("dd-MM-yyyy") + "_" + newData.ČasDo.ToString("dd-MM-yyyy");
             saveFileDialog.DefaultExt = ".json";
             if (saveFileDialog.ShowDialog() == true)
             {

@@ -1,24 +1,22 @@
-﻿using Newtonsoft.Json;
-
-namespace FYE
+﻿namespace FYE
 {
-    public class ElectricityData
+    public class OmrežninaPodatki
     {
-        public ElectricityData()
+        public OmrežninaPodatki()
         {
-            Measurements = new List<ElectricityMeasurement>();
+            MeritveMoč = new List<MeritevMoč>();
         }
-        public List<ElectricityMeasurement> Measurements { get; set; }
-        public double RegisterSum_1003 { get; set; }
-        public double RegisterMin_1003 { get; set; }
-        public double RegisterMax_1003 { get; set; }
-        public DateTime DateTimeFrom {  get; set; }
-        public DateTime DateTimeTo { get; set; }
+        public List<MeritevMoč> MeritveMoč { get; set; }
+        public double VsotaMoč_1003 { get; set; }
+        public double MinMoč_1003 { get; set; }
+        public double MaxMoč_1003 { get; set; }
+        public DateTime ČasOd {  get; set; }
+        public DateTime ČasDo { get; set; }
     }
 
-    public class ElectricityMeasurement
+    public class MeritevMoč
     {
-        public DateTime Date { get; set; }
-        public double Measurement_1003 { get; set; }
+        public DateTime Čas { get; set; }
+        public double Meritev_1003 { get; set; }
     }
 }

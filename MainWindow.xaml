@@ -8,8 +8,8 @@
         Title="FYE" Height="450" Width="800">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="ImportJSONButton" Content="Choose JSON data files" Click="ImportJSONButton_Click" Margin="10"/>
-            <Button x:Name="ExportJSONButton" Content="Export better JSON" Click="ExportJSONButton_Click" Margin="10"/>
+            <Button x:Name="ImportJSONButton" Content="Uvozitev JSON podatke" Click="ImportJSONButton_Click" Margin="10"/>
+            <Button x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="10"/>
         </StackPanel>
     </StackPanel>
 </Window>

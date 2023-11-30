@@ -84,6 +84,7 @@
                         return 3;
                 }
             }
+            return -1;
         }
 
         private bool Between(int x, int min, int max)
@@ -92,7 +93,7 @@
         }
         private bool DelaProstDan(DateTime x)
         {
-            List<DateTime> delaProstiDnevi = new List<DateTime>()
+            List<DateTime> statičniDelaProstiDnevi = new List<DateTime>()
             {
                 new DateTime(0, 1, 1), // novo leto
                 new DateTime(0, 1, 2), // novo leto
@@ -105,12 +106,26 @@
                 new DateTime(0, 11, 1), // dan spomina na mrtve
                 new DateTime(0, 12, 25), // božič
                 new DateTime(0, 12, 26) // dan samostojnosti in enotnosti
-                /*
-                 * velikonočna nedelja, velikonočni ponedeljek
-                 * binkoštna nedelja - binkošti
-                 */
             };
-            return delaProstiDnevi.Any(d => d.Month == x.Month && d.Day == x.Day);
+            List<DateTime> dinamičniDelaProstiDnevi = new List<DateTime>()
+            {
+                // Velike noči
+                new DateTime(2021, 4, 4),
+                new DateTime(2021, 4, 5),
+                new DateTime(2022, 4, 17),
+                new DateTime(2022, 4, 18),
+                new DateTime(2023, 4, 9),
+                new DateTime(2023, 4, 10),
+                new DateTime(2024, 3, 31),
+                new DateTime(2024, 4, 1),
+                // Binkošti
+                new DateTime(2021, 5, 23),
+                new DateTime(2022, 6, 5),
+                new DateTime(2023, 5, 28),
+                new DateTime(2024, 5, 19)
+            };
+            return (statičniDelaProstiDnevi.Any(d => d.Month == x.Month && d.Day == x.Day)
+                || dinamičniDelaProstiDnevi.Any(d => d.Date == x.Date));
         }
     }
 }

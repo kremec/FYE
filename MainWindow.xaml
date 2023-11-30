@@ -6,10 +6,15 @@
         xmlns:local="clr-namespace:FYE"
         mc:Ignorable="d"
         Title="FYE" Height="450" Width="800">
-    <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-            <Button x:Name="ImportJSONButton" Content="Uvozitev JSON podatke" Click="ImportJSONButton_Click" Margin="10"/>
-            <Button x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="10"/>
-        </StackPanel>
-    </StackPanel>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Button Grid.Row = "0" Grid.Column="1" x:Name="ImportJSONButton" Content="Uvozitev JSON podatke" Click="ImportJSONButton_Click" Margin="10"/>
+        <Button Grid.Row = "0" Grid.Column="1" x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="10"/>
+    </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -16,6 +17,8 @@ namespace FYE
             Closing += OnWindowClosing;
 
             LoadInitialSettings();
+            int test = OmreznineMetode.PridobiBlokZaČas(new DateTime(2022, 4, 18, 12, 15, 0));
+            Debug.WriteLine(test);
         }
         private void LoadInitialSettings()
         {

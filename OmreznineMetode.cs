@@ -1,8 +1,8 @@
 ﻿namespace FYE
 {
-    public class OmreznineMetode
+    public static class OmreznineMetode
     {        
-        public int PridobiBlokZaČas(DateTime čas)
+        public static int PridobiBlokZaČas(DateTime čas)
         {
             // Nižja sezona
             if (Between(čas.Month, 3, 10))
@@ -87,25 +87,25 @@
             return -1;
         }
 
-        private bool Between(int x, int min, int max)
+        private static bool Between(int x, int min, int max)
         {
             return (x >= min && x <= max);
         }
-        private bool DelaProstDan(DateTime x)
+        private static bool DelaProstDan(DateTime x)
         {
             List<DateTime> statičniDelaProstiDnevi = new List<DateTime>()
             {
-                new DateTime(0, 1, 1), // novo leto
-                new DateTime(0, 1, 2), // novo leto
-                new DateTime(0, 2, 8), // Prešernov dan
-                new DateTime(0, 4, 27), // dan upora proti okupatorju
-                new DateTime(0, 5, 1), // praznik dela
-                new DateTime(0, 5, 2), // praznik dela
-                new DateTime(0, 6, 25), // dan državnosti
-                new DateTime(0, 15, 8), // Marijino vnebovzetje
-                new DateTime(0, 11, 1), // dan spomina na mrtve
-                new DateTime(0, 12, 25), // božič
-                new DateTime(0, 12, 26) // dan samostojnosti in enotnosti
+                new DateTime(1, 1, 1), // novo leto
+                new DateTime(1, 1, 2), // novo leto
+                new DateTime(1, 2, 8), // Prešernov dan
+                new DateTime(1, 4, 27), // dan upora proti okupatorju
+                new DateTime(1, 5, 1), // praznik dela
+                new DateTime(1, 5, 2), // praznik dela
+                new DateTime(1, 6, 25), // dan državnosti
+                new DateTime(1, 8, 15), // Marijino vnebovzetje
+                new DateTime(1, 11, 1), // dan spomina na mrtve
+                new DateTime(1, 12, 25), // božič
+                new DateTime(1, 12, 26) // dan samostojnosti in enotnosti
             };
             List<DateTime> dinamičniDelaProstiDnevi = new List<DateTime>()
             {
@@ -125,7 +125,8 @@
                 new DateTime(2024, 5, 19)
             };
             return (statičniDelaProstiDnevi.Any(d => d.Month == x.Month && d.Day == x.Day)
-                || dinamičniDelaProstiDnevi.Any(d => d.Date == x.Date));
+                || dinamičniDelaProstiDnevi.Any(d => d.Date == x.Date)
+                || x.DayOfWeek == DayOfWeek.Saturday || x.DayOfWeek == DayOfWeek.Sunday);
         }
     }
 }

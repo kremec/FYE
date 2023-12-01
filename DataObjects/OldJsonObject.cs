@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace FYE
+namespace FYE.DataObjects
 {
     public class ElektroMeritve
     {

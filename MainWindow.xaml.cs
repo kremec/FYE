@@ -1,9 +1,14 @@
-﻿using Microsoft.Win32;
+﻿using FYE.DataMethods;
+using FYE.DataObjects;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FYE
 {
@@ -27,6 +32,11 @@ namespace FYE
                 List<string> filePaths = [.. Properties.Settings.Default.ImportJsonLocations];
                 LoadMeasurementsJson(filePaths);
             }
+            DogovorjenaMočBlok1.Text = Properties.Settings.Default.DogovorjenaMočBlok1.ToString();
+            DogovorjenaMočBlok2.Text = Properties.Settings.Default.DogovorjenaMočBlok2.ToString();
+            DogovorjenaMočBlok3.Text = Properties.Settings.Default.DogovorjenaMočBlok3.ToString();
+            DogovorjenaMočBlok4.Text = Properties.Settings.Default.DogovorjenaMočBlok4.ToString();
+            DogovorjenaMočBlok5.Text = Properties.Settings.Default.DogovorjenaMočBlok5.ToString();
         }
 
         private void ImportJSONButton_Click(object sender, RoutedEventArgs e)
@@ -119,8 +129,49 @@ namespace FYE
         }
 
 
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            string newText = textBox.Text + e.Text;
+
+            e.Handled = !Regex.IsMatch(newText, @"^\d+([,]\d{0,1})?$");
+        }
+        private void NumberValidationTextBox(object sender, TextChangedEventArgs e)
+        {
+            if (float.TryParse(DogovorjenaMočBlok1.Text, out _) && float.TryParse(DogovorjenaMočBlok2.Text, out _) && float.TryParse(DogovorjenaMočBlok3.Text, out _) && float.TryParse(DogovorjenaMočBlok4.Text, out _) && float.TryParse(DogovorjenaMočBlok5.Text, out _))
+            {
+                float blok1 = float.Parse(DogovorjenaMočBlok1.Text);
+                float blok2 = float.Parse(DogovorjenaMočBlok2.Text);
+                float blok3 = float.Parse(DogovorjenaMočBlok3.Text);
+                float blok4 = float.Parse(DogovorjenaMočBlok4.Text);
+                float blok5 = float.Parse(DogovorjenaMočBlok5.Text);
+
+                if (blok1 > blok2)
+                    blok2 = blok1;
+                if (blok2 > blok3)
+                    blok3 = blok2;
+                if (blok3 > blok4)
+                    blok4 = blok3;
+                if (blok4 > blok5)
+                    blok5 = blok4;
+
+                DogovorjenaMočBlok1.Text = blok1.ToString();
+                DogovorjenaMočBlok2.Text = blok2.ToString();
+                DogovorjenaMočBlok3.Text = blok3.ToString();
+                DogovorjenaMočBlok4.Text = blok4.ToString();
+                DogovorjenaMočBlok5.Text = blok5.ToString();
+            }
+        }
+
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
+            Properties.Settings.Default.DogovorjenaMočBlok1 = float.Parse(DogovorjenaMočBlok1.Text);
+            Properties.Settings.Default.DogovorjenaMočBlok2 = float.Parse(DogovorjenaMočBlok2.Text);
+            Properties.Settings.Default.DogovorjenaMočBlok3 = float.Parse(DogovorjenaMočBlok3.Text);
+            Properties.Settings.Default.DogovorjenaMočBlok4 = float.Parse(DogovorjenaMočBlok4.Text);
+            Properties.Settings.Default.DogovorjenaMočBlok5 = float.Parse(DogovorjenaMočBlok5.Text);
+
+
             Properties.Settings.Default.Save();
         }
     }

@@ -1,7 +1,7 @@
-﻿namespace FYE
+﻿namespace FYE.DataMethods
 {
     public static class OmreznineMetode
-    {        
+    {
         public static int PridobiBlokZaČas(DateTime čas)
         {
             // Nižja sezona
@@ -89,7 +89,7 @@
 
         private static bool Between(int x, int min, int max)
         {
-            return (x >= min && x <= max);
+            return x >= min && x <= max;
         }
         private static bool DelaProstDan(DateTime x)
         {
@@ -124,9 +124,9 @@
                 new DateTime(2023, 5, 28),
                 new DateTime(2024, 5, 19)
             };
-            return (statičniDelaProstiDnevi.Any(d => d.Month == x.Month && d.Day == x.Day)
+            return statičniDelaProstiDnevi.Any(d => d.Month == x.Month && d.Day == x.Day)
                 || dinamičniDelaProstiDnevi.Any(d => d.Date == x.Date)
-                || x.DayOfWeek == DayOfWeek.Saturday || x.DayOfWeek == DayOfWeek.Sunday);
+                || x.DayOfWeek == DayOfWeek.Saturday || x.DayOfWeek == DayOfWeek.Sunday;
         }
     }
 }

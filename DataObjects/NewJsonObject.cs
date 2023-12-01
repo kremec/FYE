@@ -1,4 +1,4 @@
-﻿namespace FYE
+﻿namespace FYE.DataObjects
 {
     public class OmrežninaPodatki
     {
@@ -10,7 +10,7 @@
         public double VsotaMoč_1003 { get; set; }
         public double MinMoč_1003 { get; set; }
         public double MaxMoč_1003 { get; set; }
-        public DateTime ČasOd {  get; set; }
+        public DateTime ČasOd { get; set; }
         public DateTime ČasDo { get; set; }
     }
 

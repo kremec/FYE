@@ -3,18 +3,56 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FYE"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:FYE" xmlns:numberformat="clr-namespace:System.Globalization;assembly=netstandard"
         mc:Ignorable="d"
         Title="FYE" Height="450" Width="800">
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Button Grid.Row = "0" Grid.Column="1" x:Name="ImportJSONButton" Content="Uvozitev JSON podatke" Click="ImportJSONButton_Click" Margin="10"/>
-        <Button Grid.Row = "0" Grid.Column="1" x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="10"/>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+            <DatePicker></DatePicker>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+            <Label FontWeight="Bold" Content="Dogovorjena moč po blokih"/>
+            <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                <TextBlock x:Name="DogovorjenaMočBlok1Tekst" Text="Blok 1:" />
+                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok1" Margin="10, 0" Width="50" NumberDecimalDigits="1" />
+                <TextBlock Text="kW" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                <TextBlock x:Name="DogovorjenaMočBlok2Tekst" Text="Blok 2:" />
+                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok2" Margin="10, 0" Width="50" NumberDecimalDigits="1" />
+                <TextBlock Text="kW" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                <TextBlock x:Name="DogovorjenaMočBlok3Tekst" Text="Blok 3:" />
+                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok3" Margin="10, 0" Width="50" NumberDecimalDigits="1" />
+                <TextBlock Text="kW" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                <TextBlock x:Name="DogovorjenaMočBlok4Tekst" Text="Blok 4:" />
+                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok4" Margin="10, 0" Width="50" NumberDecimalDigits="1" />
+                <TextBlock Text="kW" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                <TextBlock x:Name="DogovorjenaMočBlok5Tekst" Text="Blok 5:" />
+                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok5" Margin="10, 0" Width="50" NumberDecimalDigits="1" />
+                <TextBlock Text="kW" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="ImportJSONButton" Content="Uvozi JSON podatke" Click="ImportJSONButton_Click" Margin="5" Padding="5"/>
+            <Button x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="5" Padding="5"/>
+        </StackPanel>
     </Grid>
 </Window>

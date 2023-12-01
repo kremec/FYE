@@ -33,5 +33,65 @@ namespace FYE.Properties {
                 this["ImportJsonLocations"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float DogovorjenaMočBlok1 {
+            get {
+                return ((float)(this["DogovorjenaMočBlok1"]));
+            }
+            set {
+                this["DogovorjenaMočBlok1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float DogovorjenaMočBlok2 {
+            get {
+                return ((float)(this["DogovorjenaMočBlok2"]));
+            }
+            set {
+                this["DogovorjenaMočBlok2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float DogovorjenaMočBlok3 {
+            get {
+                return ((float)(this["DogovorjenaMočBlok3"]));
+            }
+            set {
+                this["DogovorjenaMočBlok3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float DogovorjenaMočBlok4 {
+            get {
+                return ((float)(this["DogovorjenaMočBlok4"]));
+            }
+            set {
+                this["DogovorjenaMočBlok4"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float DogovorjenaMočBlok5 {
+            get {
+                return ((float)(this["DogovorjenaMočBlok5"]));
+            }
+            set {
+                this["DogovorjenaMočBlok5"] = value;
+            }
+        }
     }
 }

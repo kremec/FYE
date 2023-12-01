@@ -9,6 +9,11 @@ namespace FYE
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx+WmFZfV1gfF9CZVZURmYuP1ZhSXxQd0djWH9WdHFQRGlYUEU=");
+        }
     }
 
 }

@@ -37,9 +37,9 @@ namespace FYE.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public float DogovorjenaMočBlok1 {
+        public double DogovorjenaMočBlok1 {
             get {
-                return ((float)(this["DogovorjenaMočBlok1"]));
+                return ((double)(this["DogovorjenaMočBlok1"]));
             }
             set {
                 this["DogovorjenaMočBlok1"] = value;
@@ -49,9 +49,9 @@ namespace FYE.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public float DogovorjenaMočBlok2 {
+        public double DogovorjenaMočBlok2 {
             get {
-                return ((float)(this["DogovorjenaMočBlok2"]));
+                return ((double)(this["DogovorjenaMočBlok2"]));
             }
             set {
                 this["DogovorjenaMočBlok2"] = value;
@@ -61,9 +61,9 @@ namespace FYE.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public float DogovorjenaMočBlok3 {
+        public double DogovorjenaMočBlok3 {
             get {
-                return ((float)(this["DogovorjenaMočBlok3"]));
+                return ((double)(this["DogovorjenaMočBlok3"]));
             }
             set {
                 this["DogovorjenaMočBlok3"] = value;
@@ -73,9 +73,9 @@ namespace FYE.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public float DogovorjenaMočBlok4 {
+        public double DogovorjenaMočBlok4 {
             get {
-                return ((float)(this["DogovorjenaMočBlok4"]));
+                return ((double)(this["DogovorjenaMočBlok4"]));
             }
             set {
                 this["DogovorjenaMočBlok4"] = value;
@@ -85,12 +85,34 @@ namespace FYE.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public float DogovorjenaMočBlok5 {
+        public double DogovorjenaMočBlok5 {
             get {
-                return ((float)(this["DogovorjenaMočBlok5"]));
+                return ((double)(this["DogovorjenaMočBlok5"]));
             }
             set {
                 this["DogovorjenaMočBlok5"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime DatumOd {
+            get {
+                return ((global::System.DateTime)(this["DatumOd"]));
+            }
+            set {
+                this["DatumOd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.DateTime DatumDo {
+            get {
+                return ((global::System.DateTime)(this["DatumDo"]));
+            }
+            set {
+                this["DatumDo"] = value;
             }
         }
     }

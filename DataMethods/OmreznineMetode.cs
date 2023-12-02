@@ -5,42 +5,42 @@
         public static int PridobiBlokZaČas(DateTime čas)
         {
             // Nižja sezona
-            if (Between(čas.Month, 3, 10))
+            if (čas.Month >= 3 && čas.Month <= 10)
             {
                 // Dela prost dan
                 if (DelaProstDan(čas))
                 {
-                    if (Between(čas.Hour, 0, 6))
+                    if (BetweenHours(čas, 0, 6))
                         return 5;
-                    else if (Between(čas.Hour, 6, 7))
+                    else if (BetweenHours(čas, 6, 7))
                         return 4;
-                    else if (Between(čas.Hour, 7, 14))
+                    else if (BetweenHours(čas, 7, 14))
                         return 3;
-                    else if (Between(čas.Hour, 14, 16))
+                    else if (BetweenHours(čas, 14, 16))
                         return 4;
-                    else if (Between(čas.Hour, 16, 20))
+                    else if (BetweenHours(čas, 16, 20))
                         return 3;
-                    else if (Between(čas.Hour, 20, 22))
+                    else if (BetweenHours(čas, 20, 22))
                         return 4;
-                    else if (Between(čas.Hour, 22, 23))
+                    else if (BetweenHours(čas, 22, 23))
                         return 5;
                 }
                 // Delovni Dan
                 else
                 {
-                    if (Between(čas.Hour, 0, 6))
+                    if (BetweenHours(čas, 0, 6))
                         return 4;
-                    else if (Between(čas.Hour, 6, 7))
+                    else if (BetweenHours(čas, 6, 7))
                         return 3;
-                    else if (Between(čas.Hour, 7, 14))
+                    else if (BetweenHours(čas, 7, 14))
                         return 2;
-                    else if (Between(čas.Hour, 14, 16))
+                    else if (BetweenHours(čas, 14, 16))
                         return 3;
-                    else if (Between(čas.Hour, 16, 20))
+                    else if (BetweenHours(čas, 16, 20))
                         return 2;
-                    else if (Between(čas.Hour, 20, 22))
+                    else if (BetweenHours(čas, 20, 22))
                         return 3;
-                    else if (Between(čas.Hour, 22, 23))
+                    else if (BetweenHours(čas, 22, 23))
                         return 4;
                 }
             }
@@ -50,46 +50,46 @@
                 // Dela prost dan
                 if (DelaProstDan(čas))
                 {
-                    if (Between(čas.Hour, 0, 6))
+                    if (BetweenHours(čas, 0, 6))
                         return 4;
-                    else if (Between(čas.Hour, 6, 7))
+                    else if (BetweenHours(čas, 6, 7))
                         return 3;
-                    else if (Between(čas.Hour, 7, 14))
+                    else if (BetweenHours(čas, 7, 14))
                         return 2;
-                    else if (Between(čas.Hour, 14, 16))
+                    else if (BetweenHours(čas, 14, 16))
                         return 3;
-                    else if (Between(čas.Hour, 16, 20))
+                    else if (BetweenHours(čas, 16, 20))
                         return 2;
-                    else if (Between(čas.Hour, 20, 22))
+                    else if (BetweenHours(čas, 20, 22))
                         return 3;
-                    else if (Between(čas.Hour, 22, 23))
+                    else if (BetweenHours(čas, 22, 23))
                         return 4;
                 }
                 // Delovni Dan
                 else
                 {
-                    if (Between(čas.Hour, 0, 6))
+                    if (BetweenHours(čas, 0, 6))
                         return 3;
-                    else if (Between(čas.Hour, 6, 7))
+                    else if (BetweenHours(čas, 6, 7))
                         return 2;
-                    else if (Between(čas.Hour, 7, 14))
+                    else if (BetweenHours(čas, 7, 14))
                         return 1;
-                    else if (Between(čas.Hour, 14, 16))
+                    else if (BetweenHours(čas, 14, 16))
                         return 2;
-                    else if (Between(čas.Hour, 16, 20))
+                    else if (BetweenHours(čas, 16, 20))
                         return 1;
-                    else if (Between(čas.Hour, 20, 22))
+                    else if (BetweenHours(čas, 20, 22))
                         return 2;
-                    else if (Between(čas.Hour, 22, 23))
+                    else if (BetweenHours(čas, 22, 23))
                         return 3;
                 }
             }
             return -1;
         }
 
-        private static bool Between(int x, int min, int max)
+        private static bool BetweenHours(DateTime čas, int min, int max)
         {
-            return x >= min && x <= max;
+            return ((čas.Hour >= min && čas.Hour <= max - 1) || (čas.Hour == max && čas.Minute == 0)) ? true : false;
         }
         private static bool DelaProstDan(DateTime x)
         {

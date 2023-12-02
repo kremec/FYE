@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace FYE
 {
@@ -15,5 +17,4 @@ namespace FYE
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx+WmFZfV1gfF9CZVZURmYuP1ZhSXxQd0djWH9WdHFQRGlYUEU=");
         }
     }
-
 }

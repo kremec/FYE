@@ -5,20 +5,26 @@
     <Setting Name="ImportJsonLocations" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DogovorjenaMočBlok1" Type="System.Single" Scope="User">
+    <Setting Name="DogovorjenaMočBlok1" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="DogovorjenaMočBlok2" Type="System.Single" Scope="User">
+    <Setting Name="DogovorjenaMočBlok2" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="DogovorjenaMočBlok3" Type="System.Single" Scope="User">
+    <Setting Name="DogovorjenaMočBlok3" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="DogovorjenaMočBlok4" Type="System.Single" Scope="User">
+    <Setting Name="DogovorjenaMočBlok4" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="DogovorjenaMočBlok5" Type="System.Single" Scope="User">
+    <Setting Name="DogovorjenaMočBlok5" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="DatumOd" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DatumDo" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

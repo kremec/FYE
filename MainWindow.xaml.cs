@@ -5,25 +5,27 @@ using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace FYE
 {
     public partial class MainWindow : Window
     {
         OmrežninaPodatki podatki = new OmrežninaPodatki();
+        public MainWindowViewModel ViewModel { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             Closing += OnWindowClosing;
 
+            ViewModel = new MainWindowViewModel();
+            DataContext = ViewModel;
+
+
             LoadInitialSettings();
-            int test = OmreznineMetode.PridobiBlokZaČas(new DateTime(2022, 4, 18, 12, 15, 0));
-            Debug.WriteLine(test);
+            
+            //MessageBox.Show(OmreznineMetode.PridobiBlokZaČas(new DateTime(2023, 1, 5, 7, 15, 0)).ToString());
         }
         private void LoadInitialSettings()
         {
@@ -32,18 +34,18 @@ namespace FYE
                 List<string> filePaths = [.. Properties.Settings.Default.ImportJsonLocations];
                 LoadMeasurementsJson(filePaths);
             }
-            DogovorjenaMočBlok1.Text = Properties.Settings.Default.DogovorjenaMočBlok1.ToString();
-            DogovorjenaMočBlok2.Text = Properties.Settings.Default.DogovorjenaMočBlok2.ToString();
-            DogovorjenaMočBlok3.Text = Properties.Settings.Default.DogovorjenaMočBlok3.ToString();
-            DogovorjenaMočBlok4.Text = Properties.Settings.Default.DogovorjenaMočBlok4.ToString();
-            DogovorjenaMočBlok5.Text = Properties.Settings.Default.DogovorjenaMočBlok5.ToString();
+
+            ViewModel.DatumOd = Properties.Settings.Default.DatumOd;
+            ViewModel.DatumDo = Properties.Settings.Default.DatumDo;
+
+            ViewModel.MočBlok1 = Properties.Settings.Default.DogovorjenaMočBlok1;
+            ViewModel.MočBlok2 = Properties.Settings.Default.DogovorjenaMočBlok2;
+            ViewModel.MočBlok3 = Properties.Settings.Default.DogovorjenaMočBlok3;
+            ViewModel.MočBlok4 = Properties.Settings.Default.DogovorjenaMočBlok4;
+            ViewModel.MočBlok5 = Properties.Settings.Default.DogovorjenaMočBlok5;
         }
 
         private void ImportJSONButton_Click(object sender, RoutedEventArgs e)
-        {
-            ImportMeasurementsJson(podatki);
-        }
-        private void ImportMeasurementsJson(OmrežninaPodatki newData)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Uvozi JSON datoteke s podatki omrežnin";
@@ -110,66 +112,64 @@ namespace FYE
         private void ExportJSONButton_Click(object sender, RoutedEventArgs e)
         {
             if (podatki.MeritveMoč.Count > 0)
-                ExportBetterMeasurementsJson(podatki);
+                ExportBetterMeasurementsJson();
             else
                 MessageBox.Show("Izvozitev JSON ni možna, uvozite nove podatke!", "ERROR");
         }
-        private void ExportBetterMeasurementsJson(OmrežninaPodatki newData)
+        private void ExportBetterMeasurementsJson()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Title = "Izvozitev JSON podatkov";
             saveFileDialog.Filter = "Json files (*.json)|*.json";
-            saveFileDialog.FileName = "ElectricityData_" + newData.ČasOd.ToString("dd-MM-yyyy") + "_" + newData.ČasDo.ToString("dd-MM-yyyy");
+            saveFileDialog.FileName = "ElectricityData_" + podatki.ČasOd.ToString("dd-MM-yyyy") + "_" + podatki.ČasDo.ToString("dd-MM-yyyy");
             saveFileDialog.DefaultExt = ".json";
             if (saveFileDialog.ShowDialog() == true)
             {
-                string jsonNewData = JsonConvert.SerializeObject(newData);
+                string jsonNewData = JsonConvert.SerializeObject(podatki);
                 File.WriteAllText(saveFileDialog.FileName, jsonNewData);
             }
         }
 
-
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            string newText = textBox.Text + e.Text;
-
-            e.Handled = !Regex.IsMatch(newText, @"^\d+([,]\d{0,1})?$");
-        }
-        private void NumberValidationTextBox(object sender, TextChangedEventArgs e)
-        {
-            if (float.TryParse(DogovorjenaMočBlok1.Text, out _) && float.TryParse(DogovorjenaMočBlok2.Text, out _) && float.TryParse(DogovorjenaMočBlok3.Text, out _) && float.TryParse(DogovorjenaMočBlok4.Text, out _) && float.TryParse(DogovorjenaMočBlok5.Text, out _))
+            var podatkiPoMesecuLetu = podatki.MeritveMoč
+                .GroupBy(meritev => new { meritev.Čas.Year, meritev.Čas.Month });
+            foreach (var skupina in podatkiPoMesecuLetu)
             {
-                float blok1 = float.Parse(DogovorjenaMočBlok1.Text);
-                float blok2 = float.Parse(DogovorjenaMočBlok2.Text);
-                float blok3 = float.Parse(DogovorjenaMočBlok3.Text);
-                float blok4 = float.Parse(DogovorjenaMočBlok4.Text);
-                float blok5 = float.Parse(DogovorjenaMočBlok5.Text);
+                int leto = skupina.Key.Year;
+                int mesec = skupina.Key.Month;
 
-                if (blok1 > blok2)
-                    blok2 = blok1;
-                if (blok2 > blok3)
-                    blok3 = blok2;
-                if (blok3 > blok4)
-                    blok4 = blok3;
-                if (blok4 > blok5)
-                    blok5 = blok4;
+                MesečniPodatki mesečniPodatki = new MesečniPodatki() { Leto = leto, Mesec = mesec };
 
-                DogovorjenaMočBlok1.Text = blok1.ToString();
-                DogovorjenaMočBlok2.Text = blok2.ToString();
-                DogovorjenaMočBlok3.Text = blok3.ToString();
-                DogovorjenaMočBlok4.Text = blok4.ToString();
-                DogovorjenaMočBlok5.Text = blok5.ToString();
+                var meritveLetoMesec = skupina.ToList();
+                foreach (var meritev in meritveLetoMesec)
+                {
+                    int blokMeritve = OmreznineMetode.PridobiBlokZaČas(meritev.Čas);
+                    double dogovorjenaMočBloka = ViewModel.MočBloka(blokMeritve);
+                    if (dogovorjenaMočBloka != -1)
+                    {
+                        if (meritev.Meritev_1003 > dogovorjenaMočBloka)
+                        {
+                            mesečniPodatki.ŠteviloPreseženihIntervalovBloka[blokMeritve - 1]++;
+                            podatki.ŠteviloPreseženihIntervalovBloka[blokMeritve - 1]++;
+                        }
+                    }
+                }
+
+                podatki.MesečniPodatki.Add(mesečniPodatki);
             }
         }
 
-        public void OnWindowClosing(object sender, CancelEventArgs e)
+        public void OnWindowClosing(object? sender, CancelEventArgs e)
         {
-            Properties.Settings.Default.DogovorjenaMočBlok1 = float.Parse(DogovorjenaMočBlok1.Text);
-            Properties.Settings.Default.DogovorjenaMočBlok2 = float.Parse(DogovorjenaMočBlok2.Text);
-            Properties.Settings.Default.DogovorjenaMočBlok3 = float.Parse(DogovorjenaMočBlok3.Text);
-            Properties.Settings.Default.DogovorjenaMočBlok4 = float.Parse(DogovorjenaMočBlok4.Text);
-            Properties.Settings.Default.DogovorjenaMočBlok5 = float.Parse(DogovorjenaMočBlok5.Text);
+            Properties.Settings.Default.DatumOd = ViewModel.DatumOd;
+            Properties.Settings.Default.DatumDo = ViewModel.DatumDo;
+
+            Properties.Settings.Default.DogovorjenaMočBlok1 = ViewModel.MočBlok1;
+            Properties.Settings.Default.DogovorjenaMočBlok2 = ViewModel.MočBlok2;
+            Properties.Settings.Default.DogovorjenaMočBlok3 = ViewModel.MočBlok3;
+            Properties.Settings.Default.DogovorjenaMočBlok4 = ViewModel.MočBlok4;
+            Properties.Settings.Default.DogovorjenaMočBlok5 = ViewModel.MočBlok5;
 
 
             Properties.Settings.Default.Save();

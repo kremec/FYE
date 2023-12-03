@@ -1,4 +1,6 @@
-﻿namespace FYE.DataObjects
+﻿using System.Collections.ObjectModel;
+
+namespace FYE.DataObjects
 {
     public class OmrežninaPodatki
     {
@@ -33,8 +35,8 @@
             ŠteviloPreseženihIntervalovBloka = new int[5];
             CenaPreseženihIntervalovBloka = new int[5];
         }
-        public int Mesec { get; set; }
         public int Leto { get; set; }
+        public int Mesec { get; set; }
         public int[] ŠteviloPreseženihIntervalovBloka;
         public int[] CenaPreseženihIntervalovBloka;
     }

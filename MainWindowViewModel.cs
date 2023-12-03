@@ -1,4 +1,6 @@
-﻿using Syncfusion.Windows.Shared;
+﻿using FYE.DataObjects;
+using Syncfusion.Windows.Shared;
+using System.Collections.ObjectModel;
 
 namespace FYE
 {
@@ -136,5 +138,43 @@ namespace FYE
             }
         }
 
+        private OmrežninaPodatki _podatki;
+        public OmrežninaPodatki Podatki
+        {
+            get { return _podatki; }
+            set
+            {
+                if (value != _podatki)
+                {
+                    _podatki = value;
+                    RaisePropertyChanged("Podatki");
+                }
+            }
+        }
+
+        private ObservableCollection<PodatkiOgled> _podatkiOgled = new ObservableCollection<PodatkiOgled>();
+        public ObservableCollection<PodatkiOgled> PodatkiOgled
+        {
+            get { return _podatkiOgled; }
+            set
+            {
+                if (value != _podatkiOgled)
+                {
+                    _podatkiOgled = value;
+                    RaisePropertyChanged("PodatkiOgled");
+                }
+            }
+        }
+    }
+
+    public class PodatkiOgled
+    {
+        public int Leto { get; set; }
+        public int Mesec { get; set; }
+        public int ŠteviloPrekoračitevBlok1 { get; set; }
+        public int ŠteviloPrekoračitevBlok2 { get; set; }
+        public int ŠteviloPrekoračitevBlok3 { get; set; }
+        public int ŠteviloPrekoračitevBlok4 { get; set; }
+        public int ŠteviloPrekoračitevBlok5 { get; set; }
     }
 }

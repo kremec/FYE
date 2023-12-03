@@ -14,55 +14,57 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-                <TextBlock Text="Datum od:" />
-                <syncfusion:DateTimeEdit x:Name="DatumOdEdit" DateTime="{Binding DatumOd}" />
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Label FontWeight="Bold" Content="Časovni interval" Margin="0, 10, 0, 0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+                    <TextBlock Text="Datum od:" />
+                    <syncfusion:DateTimeEdit x:Name="DatumOdEdit" DisableDateSelection="true" Pattern="CustomPattern" CustomPattern="MM-yyyy" DateTime="{Binding DatumOd}" DateTimeChanged="ParametersChanged" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+                    <TextBlock Text="Datum do:" />
+                    <syncfusion:DateTimeEdit x:Name="DatumDoEdit" DisableDateSelection="true" Pattern="CustomPattern" CustomPattern="MM-yyyy" DateTime="{Binding DatumDo}" DateTimeChanged="ParametersChanged" />
+                </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-                <TextBlock Text="Datum do:" />
-                <syncfusion:DateTimeEdit x:Name="DatumDoEdit" DateTime="{Binding DatumDo}" />
+            
+            <Label FontWeight="Bold" Content="Dogovorjena moč po blokih" Margin="0, 10, 0, 0"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                    <TextBlock Text="Blok 1:" />
+                    <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok1" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok1}" ValueChanged="ParametersChanged" />
+                    <TextBlock Text="kW" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                    <TextBlock Text="Blok 2:" />
+                    <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok2" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok2}" ValueChanged="ParametersChanged"  />
+                    <TextBlock Text="kW" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                    <TextBlock Text="Blok 3:" />
+                    <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok3" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok3}" ValueChanged="ParametersChanged"  />
+                    <TextBlock Text="kW" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                    <TextBlock Text="Blok 4:" />
+                    <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok4" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok4}" ValueChanged="ParametersChanged"  />
+                    <TextBlock Text="kW" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 5" >
+                    <TextBlock Text="Blok 5:" />
+                    <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok5" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok5}" ValueChanged="ParametersChanged"  />
+                    <TextBlock Text="kW" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-            <Label FontWeight="Bold" Content="Dogovorjena moč po blokih"/>
-            <StackPanel Orientation="Horizontal" Margin="0, 5" >
-                <TextBlock Text="Blok 1:" />
-                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok1" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok1}" />
-                <TextBlock Text="kW" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0, 5" >
-                <TextBlock Text="Blok 2:" />
-                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok2" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok2}"  />
-                <TextBlock Text="kW" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0, 5" >
-                <TextBlock Text="Blok 3:" />
-                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok3" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok3}"  />
-                <TextBlock Text="kW" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0, 5" >
-                <TextBlock Text="Blok 4:" />
-                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok4" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok4}"  />
-                <TextBlock Text="kW" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0, 5" >
-                <TextBlock Text="Blok 5:" />
-                <syncfusion:DoubleTextBox x:Name="DogovorjenaMočBlok5" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlok5}"  />
-                <TextBlock Text="kW" />
+            
+            <Label FontWeight="Bold" Content="Uvoz in izvoz podatkov" Margin="0, 20, 0, 0"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                <Button x:Name="ImportJSONButton" Content="Uvozi JSON podatke" Click="ImportJSONButton_Click" Margin="5" Padding="5"/>
+                <Button x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="5" Padding="5"/>
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="CalculateButton" Content="Preračunaj" Click="CalculateButton_Click"  Margin="5" Padding="5"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="ImportJSONButton" Content="Uvozi JSON podatke" Click="ImportJSONButton_Click" Margin="5" Padding="5"/>
-            <Button x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="5" Padding="5"/>
-        </StackPanel>
+        <DataGrid x:Name="PodatkiDataGrid" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PodatkiOgled}" />
     </Grid>
 </Window>

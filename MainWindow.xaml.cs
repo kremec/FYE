@@ -6,6 +6,8 @@ using Syncfusion.Windows.Shared;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace FYE
 {
@@ -128,6 +130,10 @@ namespace FYE
 
         private void ParametersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            UpdateView();
+        }
+        private void UpdateView()
+        {
             if (ViewModel == null)
                 return;
 
@@ -177,6 +183,25 @@ namespace FYE
                     };
                     ViewModel.PodatkiOgled.Add(podatki);
                 }
+            }
+        }
+        public class NameToBrushConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            {
+                var input = int.Parse(value.ToString());
+                switch (input)
+                {
+                    case 0:
+                        return DependencyProperty.UnsetValue;
+                    default:
+                        return Brushes.OrangeRed;
+                }
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            {
+                throw new NotSupportedException();
             }
         }
 

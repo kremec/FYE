@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:fye="clr-namespace:FYE" d:DataContext="{d:DesignInstance Type=fye:MainWindowViewModel}"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:fye="clr-namespace:FYE"
+        d:DataContext="{d:DesignInstance Type=fye:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="FYE" Height="450" Width="800">
     <Grid ShowGridLines="True">
@@ -28,7 +30,7 @@
                     <syncfusion:DateTimeEdit x:Name="DatumDoEdit" DisableDateSelection="true" Pattern="CustomPattern" CustomPattern="MM-yyyy" DateTime="{Binding DatumDo}" DateTimeChanged="ParametersChanged" />
                 </StackPanel>
             </StackPanel>
-            
+
             <Label FontWeight="Bold" Content="Dogovorjena moč po blokih" Margin="0, 10, 0, 0"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Margin="0, 5" >
@@ -57,14 +59,14 @@
                     <TextBlock Text="kW" />
                 </StackPanel>
             </StackPanel>
-            
+
             <Label FontWeight="Bold" Content="Uvoz in izvoz podatkov" Margin="0, 20, 0, 0"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                 <Button x:Name="ImportJSONButton" Content="Uvozi JSON podatke" Click="ImportJSONButton_Click" Margin="5" Padding="5"/>
                 <Button x:Name="ExportJSONButton" Content="Izvozi JSON podatke" Click="ExportJSONButton_Click" Margin="5" Padding="5"/>
             </StackPanel>
         </StackPanel>
-
-        <DataGrid x:Name="PodatkiDataGrid" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PodatkiOgled}" />
+        <syncfusion:SfDataGrid x:Name="PodatkiDataGrid" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PodatkiOgled}" ColumnSizer="Auto" />
+        <!-- <DataGrid x:Name="PodatkiDataGrid" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PodatkiOgled}" CellStyle="{StaticResource CellStyle}"/> -->
     </Grid>
 </Window>

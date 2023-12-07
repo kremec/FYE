@@ -14,7 +14,7 @@ namespace FYE
         public App()
         {
             //Register Syncfusion license
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx+WmFZfV1gfF9CZVZURmYuP1ZhSXxQd0djWH9WdHFQRGlYUEU=");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEZiW39ZcHJVQ2RYUkVzXg==");
         }
     }
 }

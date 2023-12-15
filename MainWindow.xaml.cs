@@ -7,6 +7,7 @@ using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Data;
@@ -137,14 +138,28 @@ namespace FYE
 
         private void ParametersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
             UpdateView();
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
         private void UpdateView()
         {
             if (ViewModel == null)
                 return;
 
-            ViewModel.Podatki.MesečniPodatki.Clear();
+            // Čeprav obstaja DataBinding se spremeni v ViewModel šele po koncu tega klica
+            if (DogovorjenaMočBlok1.Value != 0)
+                ViewModel.MočBlok1 = (double)DogovorjenaMočBlok1.Value;
+            if (DogovorjenaMočBlok2.Value != 0)
+                ViewModel.MočBlok2 = (double)DogovorjenaMočBlok2.Value;
+            if (DogovorjenaMočBlok3.Value != 0)
+                ViewModel.MočBlok3 = (double)DogovorjenaMočBlok3.Value;
+            if (DogovorjenaMočBlok4.Value != 0)
+                ViewModel.MočBlok4 = (double)DogovorjenaMočBlok4.Value;
+            if (DogovorjenaMočBlok5.Value != 0)
+                ViewModel.MočBlok5 = (double)DogovorjenaMočBlok5.Value;
+
+                ViewModel.Podatki.MesečniPodatki.Clear();
             ViewModel.PodatkiOgled.Clear();
             var podatkiPoMesecuLetu = ViewModel.Podatki.MeritveMoč
                 .GroupBy(meritev => new { meritev.Čas.Year, meritev.Čas.Month });
@@ -253,6 +268,9 @@ namespace FYE
                     }
                 }
             );
+
+            if (PodatkiDataGrid.View != null)
+                PodatkiDataGrid.View.Refresh();
         }
 
         private void TestiranjeVrednostiButton_Click(object sender, RoutedEventArgs e)

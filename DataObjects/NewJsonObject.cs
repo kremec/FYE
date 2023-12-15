@@ -9,7 +9,7 @@ namespace FYE.DataObjects
             MeritveMoč = new List<MeritevMoč>();
             MesečniPodatki = new List<MesečniPodatki>();
             ŠteviloPreseženihIntervalovBloka = new int[5];
-            CenaPreseženihIntervalovBloka = new int[5];
+            CenaPreseženihIntervalovBloka = new double[5];
         }
         public List<MeritevMoč> MeritveMoč { get; set; }
         public double VsotaMoč_1003 { get; set; }
@@ -19,7 +19,7 @@ namespace FYE.DataObjects
         public DateTime ČasDo { get; set; }
         public List<MesečniPodatki> MesečniPodatki { get; set; }
         public int[] ŠteviloPreseženihIntervalovBloka;
-        public int[] CenaPreseženihIntervalovBloka;
+        public double[] CenaPreseženihIntervalovBloka;
     }
 
     public class MeritevMoč
@@ -33,11 +33,11 @@ namespace FYE.DataObjects
         public MesečniPodatki()
         {
             ŠteviloPreseženihIntervalovBloka = new int[5];
-            CenaPreseženihIntervalovBloka = new int[5];
+            CenaPreseženihIntervalovBloka = new double[5];
         }
         public int Leto { get; set; }
         public int Mesec { get; set; }
         public int[] ŠteviloPreseženihIntervalovBloka;
-        public int[] CenaPreseženihIntervalovBloka;
+        public double[] CenaPreseženihIntervalovBloka;
     }
 }

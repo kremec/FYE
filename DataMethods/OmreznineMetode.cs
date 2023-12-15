@@ -2,7 +2,7 @@
 {
     public static class OmreznineMetode
     {
-        public static int PridobiBlokZaČas(DateTime čas)
+        public static int Blok(DateTime čas)
         {
             // Nižja sezona
             if (čas.Month >= 3 && čas.Month <= 10)
@@ -22,7 +22,7 @@
                         return 3;
                     else if (BetweenHours(čas, 20, 22))
                         return 4;
-                    else if (BetweenHours(čas, 22, 23))
+                    else if (BetweenHours(čas, 22, 24))
                         return 5;
                 }
                 // Delovni Dan
@@ -40,7 +40,7 @@
                         return 2;
                     else if (BetweenHours(čas, 20, 22))
                         return 3;
-                    else if (BetweenHours(čas, 22, 23))
+                    else if (BetweenHours(čas, 22, 24))
                         return 4;
                 }
             }
@@ -62,7 +62,7 @@
                         return 2;
                     else if (BetweenHours(čas, 20, 22))
                         return 3;
-                    else if (BetweenHours(čas, 22, 23))
+                    else if (BetweenHours(čas, 22, 24))
                         return 4;
                 }
                 // Delovni Dan
@@ -80,17 +80,17 @@
                         return 1;
                     else if (BetweenHours(čas, 20, 22))
                         return 2;
-                    else if (BetweenHours(čas, 22, 23))
+                    else if (BetweenHours(čas, 22, 24))
                         return 3;
                 }
             }
             return -1;
         }
-
         private static bool BetweenHours(DateTime čas, int min, int max)
         {
             return ((čas.Hour >= min && čas.Hour <= max - 1) || (čas.Hour == max && čas.Minute == 0)) ? true : false;
         }
+
         private static bool DelaProstDan(DateTime x)
         {
             List<DateTime> statičniDelaProstiDnevi = new List<DateTime>()
@@ -127,6 +127,40 @@
             return statičniDelaProstiDnevi.Any(d => d.Month == x.Month && d.Day == x.Day)
                 || dinamičniDelaProstiDnevi.Any(d => d.Date == x.Date)
                 || x.DayOfWeek == DayOfWeek.Saturday || x.DayOfWeek == DayOfWeek.Sunday;
+        }
+
+        public static double CenaPresežkov(int blok, List<double> presežki)
+        {
+            double vsotaKvadratovPresežkov = 0;
+            foreach (double presežek in presežki)
+                vsotaKvadratovPresežkov += presežek * presežek;
+
+            return Math.Sqrt(vsotaKvadratovPresežkov) * faktorUtežitve * (TarifaPrenosniSistem(blok) + TarifaDistribucijskiSistem(blok));
+        }
+        private static double faktorUtežitve = 0.9;
+        private static double TarifaPrenosniSistem(int blok)
+        {
+            switch(blok)
+            {
+                case 1: return 0.24923;
+                case 2: return 0.04877;
+                case 3: return 0.01103;
+                case 4: return 0.00038;
+                case 5: return 0;
+                default: return -1;
+            }
+        }
+        private static double TarifaDistribucijskiSistem(int blok)
+        {
+            switch (blok)
+            {
+                case 1: return 3.36401;
+                case 2: return 0.83363;
+                case 3: return 0.18034;
+                case 4: return 0.01278;
+                case 5: return 0;
+                default: return -1;
+            }
         }
     }
 }

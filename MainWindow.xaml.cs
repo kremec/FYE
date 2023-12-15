@@ -149,18 +149,27 @@ namespace FYE
                 MesečniPodatki mesečniPodatki = new MesečniPodatki() { Leto = leto, Mesec = mesec };
 
                 var meritveLetoMesec = skupina.ToList();
+                List<double>[] presežki = new List<double>[5];
+                for (int i = 0; i < presežki.Length; i++)
+                    presežki[i] = new List<double>();
                 foreach (var meritev in meritveLetoMesec)
                 {
-                    int blokMeritve = OmreznineMetode.PridobiBlokZaČas(meritev.Čas);
+                    int blokMeritve = OmreznineMetode.Blok(meritev.Čas);
                     double dogovorjenaMočBloka = ViewModel.MočBloka(blokMeritve);
                     if (dogovorjenaMočBloka != -1)
                     {
                         if (meritev.Meritev_1003 > dogovorjenaMočBloka)
                         {
-                            mesečniPodatki.ŠteviloPreseženihIntervalovBloka[blokMeritve - 1]++;
-                            ViewModel.Podatki.ŠteviloPreseženihIntervalovBloka[blokMeritve - 1]++;
+                            presežki[blokMeritve - 1].Add(meritev.Meritev_1003 - dogovorjenaMočBloka);
                         }
                     }
+                }
+                for (int blokMeritve = 1; blokMeritve <= presežki.Length; blokMeritve++)
+                {
+                    mesečniPodatki.ŠteviloPreseženihIntervalovBloka[blokMeritve - 1] = presežki[blokMeritve - 1].Count;
+                    ViewModel.Podatki.ŠteviloPreseženihIntervalovBloka[blokMeritve - 1] = presežki[blokMeritve - 1].Count;
+                    mesečniPodatki.CenaPreseženihIntervalovBloka[blokMeritve - 1] = OmreznineMetode.CenaPresežkov(blokMeritve, presežki[blokMeritve - 1]);
+                    ViewModel.Podatki.CenaPreseženihIntervalovBloka[blokMeritve - 1] = OmreznineMetode.CenaPresežkov(blokMeritve, presežki[blokMeritve - 1]);
                 }
 
                 ViewModel.Podatki.MesečniPodatki.Add(mesečniPodatki);
@@ -176,32 +185,18 @@ namespace FYE
                         Leto = mesečniPodatki.Leto,
                         Mesec = mesečniPodatki.Mesec,
                         ŠteviloPrekoračitevBlok1 = mesečniPodatki.ŠteviloPreseženihIntervalovBloka[0],
+                        CenaPrekoračitevBlok1 = mesečniPodatki.CenaPreseženihIntervalovBloka[0],
                         ŠteviloPrekoračitevBlok2 = mesečniPodatki.ŠteviloPreseženihIntervalovBloka[1],
+                        CenaPrekoračitevBlok2 = mesečniPodatki.CenaPreseženihIntervalovBloka[1],
                         ŠteviloPrekoračitevBlok3 = mesečniPodatki.ŠteviloPreseženihIntervalovBloka[2],
+                        CenaPrekoračitevBlok3 = mesečniPodatki.CenaPreseženihIntervalovBloka[2],
                         ŠteviloPrekoračitevBlok4 = mesečniPodatki.ŠteviloPreseženihIntervalovBloka[3],
-                        ŠteviloPrekoračitevBlok5 = mesečniPodatki.ŠteviloPreseženihIntervalovBloka[4]
+                        CenaPrekoračitevBlok4 = mesečniPodatki.CenaPreseženihIntervalovBloka[3],
+                        ŠteviloPrekoračitevBlok5 = mesečniPodatki.ŠteviloPreseženihIntervalovBloka[4],
+                        CenaPrekoračitevBlok5 = mesečniPodatki.CenaPreseženihIntervalovBloka[4]
                     };
                     ViewModel.PodatkiOgled.Add(podatki);
                 }
-            }
-        }
-        public class NameToBrushConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-            {
-                var input = int.Parse(value.ToString());
-                switch (input)
-                {
-                    case 0:
-                        return DependencyProperty.UnsetValue;
-                    default:
-                        return Brushes.OrangeRed;
-                }
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-            {
-                throw new NotSupportedException();
             }
         }
 

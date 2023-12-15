@@ -138,7 +138,7 @@ namespace FYE
             }
         }
 
-        private OmrežninaPodatki _podatki;
+        private OmrežninaPodatki _podatki = new OmrežninaPodatki();
         public OmrežninaPodatki Podatki
         {
             get { return _podatki; }
@@ -172,9 +172,14 @@ namespace FYE
         public int Leto { get; set; }
         public int Mesec { get; set; }
         public int ŠteviloPrekoračitevBlok1 { get; set; }
+        public double CenaPrekoračitevBlok1 { get; set; }
         public int ŠteviloPrekoračitevBlok2 { get; set; }
+        public double CenaPrekoračitevBlok2 { get; set; }
         public int ŠteviloPrekoračitevBlok3 { get; set; }
+        public double CenaPrekoračitevBlok3 { get; set; }
         public int ŠteviloPrekoračitevBlok4 { get; set; }
+        public double CenaPrekoračitevBlok4 { get; set; }
         public int ŠteviloPrekoračitevBlok5 { get; set; }
+        public double CenaPrekoračitevBlok5 { get; set; }
     }
 }

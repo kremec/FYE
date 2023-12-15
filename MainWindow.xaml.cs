@@ -2,7 +2,10 @@
 using FYE.DataObjects;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Syncfusion.Data;
+using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.Windows.Shared;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
@@ -198,8 +201,113 @@ namespace FYE
                     ViewModel.PodatkiOgled.Add(podatki);
                 }
             }
+
+            if (PodatkiDataGrid.TableSummaryRows.Count != 0)
+                PodatkiDataGrid.TableSummaryRows.Clear();
+            PodatkiDataGrid.TableSummaryRows.Add(
+                new GridTableSummaryRow()
+                {
+                    ShowSummaryInRow = true,
+                    Title = "Cena presežkov po blokih - 1: {CenaBlok1}, 2: {CenaBlok2}, 3: {CenaBlok3}, 4: {CenaBlok4}, 5: {CenaBlok5}",
+                    SummaryColumns = new ObservableCollection<ISummaryColumn>()
+                    {
+                    new GridSummaryColumn()
+                    {
+                        Name = "CenaBlok1",
+                        MappingName="CenaPrekoračitevBlok1",
+                        SummaryType= SummaryType.DoubleAggregate,
+                        Format="{Sum:c}"
+                    },
+                    new GridSummaryColumn()
+                    {
+                        Name = "CenaBlok2",
+                        MappingName="CenaPrekoračitevBlok2",
+                        SummaryType= SummaryType.DoubleAggregate,
+                        Format="{Sum:c}"
+                    },
+                    new GridSummaryColumn()
+                    {
+                        Name = "CenaBlok3",
+                        MappingName="CenaPrekoračitevBlok3",
+                        SummaryType= SummaryType.DoubleAggregate,
+                        Format="{Sum:c}"
+                    },
+                    new GridSummaryColumn()
+                    {
+                        Name = "CenaBlok4",
+                        MappingName="CenaPrekoračitevBlok4",
+                        SummaryType= SummaryType.DoubleAggregate,
+                        Format="{Sum:c}"
+                    },
+                    new GridSummaryColumn()
+                    {
+                        Name = "CenaBlok5",
+                        MappingName="CenaPrekoračitevBlok5",
+                        SummaryType= SummaryType.DoubleAggregate,
+                        Format="{Sum:c}"
+                    },
+                    }
+                }
+            );
         }
 
+        private void TestiranjeVrednostiButton_Click(object sender, RoutedEventArgs e)
+        {
+            TestValues();
+        }
+        private void TestValues()
+        {
+            if (ViewModel == null)
+                return;
+
+            var podatkiPoMesecuLetu = ViewModel.Podatki.MeritveMoč
+                .GroupBy(meritev => new { meritev.Čas.Year, meritev.Čas.Month });
+
+            double minCena = double.MaxValue;
+            double minCenaMočBloka = ViewModel.MočBlokOd;
+
+            for (double trenutnaMočBlokov = ViewModel.MočBlokOd; trenutnaMočBlokov <= ViewModel.MočBlokDo; trenutnaMočBlokov += 0.1)
+            {
+                double cena = 0;
+                foreach (var skupina in podatkiPoMesecuLetu)
+                {
+                    int leto = skupina.Key.Year;
+                    int mesec = skupina.Key.Month;
+
+                    var meritveLetoMesec = skupina.ToList();
+                    List<double>[] presežki = new List<double>[5];
+                    for (int i = 0; i < presežki.Length; i++)
+                        presežki[i] = new List<double>();
+                    foreach (var meritev in meritveLetoMesec)
+                    {
+                        int blokMeritve = OmreznineMetode.Blok(meritev.Čas);
+                        double dogovorjenaMočBloka = ViewModel.MočBloka(blokMeritve);
+                        if (dogovorjenaMočBloka != -1)
+                        {
+                            if (meritev.Meritev_1003 > dogovorjenaMočBloka)
+                            {
+                                presežki[blokMeritve - 1].Add(meritev.Meritev_1003 - dogovorjenaMočBloka);
+                            }
+                        }
+                    }
+
+                    for (int blokMeritve = 1; blokMeritve <= presežki.Length; blokMeritve++)
+                    {
+                        cena += OmreznineMetode.CenaPresežkov(blokMeritve, presežki[blokMeritve - 1]);
+                    }
+                }
+
+                if (cena < minCena)
+                {
+                    minCena = cena;
+                    minCenaMočBloka = trenutnaMočBlokov;
+                }
+
+                cena = 0;
+            }
+
+            MessageBox.Show($"Najmanjša možna cena presežkov: {minCena} pri moči vseh blokov: {minCenaMočBloka}");
+        }
 
         public void OnWindowClosing(object? sender, CancelEventArgs e)
         {

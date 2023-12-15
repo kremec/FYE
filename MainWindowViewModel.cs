@@ -111,6 +111,34 @@ namespace FYE
             }
         }
 
+        private double _močBlokOd;
+        public double MočBlokOd
+        {
+            get { return _močBlokOd; }
+            set
+            {
+                if (_močBlokOd != value)
+                {
+                    _močBlokOd = value;
+                    RaisePropertyChanged("MočBlokOd");
+                }
+            }
+        }
+        
+        private double _močBlokDo;
+        public double MočBlokDo
+        {
+            get { return _močBlokDo; }
+            set
+            {
+                if (_močBlokDo != value)
+                {
+                    _močBlokDo = value;
+                    RaisePropertyChanged("MočBlokDo");
+                }
+            }
+        }
+
         private DateTime _datumOd;
         public DateTime DatumOd
         {

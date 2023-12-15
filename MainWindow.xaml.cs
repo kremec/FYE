@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace FYE
@@ -44,6 +45,9 @@ namespace FYE
             ViewModel.MočBlok3 = Properties.Settings.Default.DogovorjenaMočBlok3;
             ViewModel.MočBlok4 = Properties.Settings.Default.DogovorjenaMočBlok4;
             ViewModel.MočBlok5 = Properties.Settings.Default.DogovorjenaMočBlok5;
+
+            ViewModel.MočBlokOd = Properties.Settings.Default.MočBlokOd;
+            ViewModel.MočBlokDo = Properties.Settings.Default.MočBlokDo;
         }
 
         private void ImportJSONButton_Click(object sender, RoutedEventArgs e)
@@ -253,7 +257,9 @@ namespace FYE
 
         private void TestiranjeVrednostiButton_Click(object sender, RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
             TestValues();
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
         private void TestValues()
         {
@@ -263,9 +269,7 @@ namespace FYE
             var podatkiPoMesecuLetu = ViewModel.Podatki.MeritveMoč
                 .GroupBy(meritev => new { meritev.Čas.Year, meritev.Čas.Month });
 
-            double minCena = double.MaxValue;
-            double minCenaMočBloka = ViewModel.MočBlokOd;
-
+            List<double> cenePresežkovPoDogovorjenihMočeh = new List<double>();
             for (double trenutnaMočBlokov = ViewModel.MočBlokOd; trenutnaMočBlokov <= ViewModel.MočBlokDo; trenutnaMočBlokov += 0.1)
             {
                 double cena = 0;
@@ -281,13 +285,9 @@ namespace FYE
                     foreach (var meritev in meritveLetoMesec)
                     {
                         int blokMeritve = OmreznineMetode.Blok(meritev.Čas);
-                        double dogovorjenaMočBloka = ViewModel.MočBloka(blokMeritve);
-                        if (dogovorjenaMočBloka != -1)
+                        if (meritev.Meritev_1003 > trenutnaMočBlokov)
                         {
-                            if (meritev.Meritev_1003 > dogovorjenaMočBloka)
-                            {
-                                presežki[blokMeritve - 1].Add(meritev.Meritev_1003 - dogovorjenaMočBloka);
-                            }
+                            presežki[blokMeritve - 1].Add(meritev.Meritev_1003 - trenutnaMočBlokov);
                         }
                     }
 
@@ -297,16 +297,16 @@ namespace FYE
                     }
                 }
 
-                if (cena < minCena)
-                {
-                    minCena = cena;
-                    minCenaMočBloka = trenutnaMočBlokov;
-                }
-
+                cenePresežkovPoDogovorjenihMočeh.Add(cena);
                 cena = 0;
             }
 
-            MessageBox.Show($"Najmanjša možna cena presežkov: {minCena} pri moči vseh blokov: {minCenaMočBloka}");
+            string rezultat = "Cene presežkov za dane moči blokov: \n";
+            for (int i = 0; i < cenePresežkovPoDogovorjenihMočeh.Count(); i++)
+            {
+                rezultat += $"{String.Format("{0:0.0}", Math.Round(ViewModel.MočBlokOd + i*0.1, 1, MidpointRounding.AwayFromZero))}: {String.Format("{0:0.000}", Math.Round(cenePresežkovPoDogovorjenihMočeh[i], 3, MidpointRounding.AwayFromZero))}\n";
+            }
+            MessageBox.Show(rezultat);
         }
 
         public void OnWindowClosing(object? sender, CancelEventArgs e)
@@ -319,6 +319,9 @@ namespace FYE
             Properties.Settings.Default.DogovorjenaMočBlok3 = ViewModel.MočBlok3;
             Properties.Settings.Default.DogovorjenaMočBlok4 = ViewModel.MočBlok4;
             Properties.Settings.Default.DogovorjenaMočBlok5 = ViewModel.MočBlok5;
+
+            Properties.Settings.Default.MočBlokOd = ViewModel.MočBlokOd;
+            Properties.Settings.Default.MočBlokDo = ViewModel.MočBlokDo;
 
             Properties.Settings.Default.Save();
         }

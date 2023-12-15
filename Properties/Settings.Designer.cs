@@ -115,5 +115,29 @@ namespace FYE.Properties {
                 this["DatumDo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double MočBlokOd {
+            get {
+                return ((double)(this["MočBlokOd"]));
+            }
+            set {
+                this["MočBlokOd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double MočBlokDo {
+            get {
+                return ((double)(this["MočBlokDo"]));
+            }
+            set {
+                this["MočBlokDo"] = value;
+            }
+        }
     }
 }

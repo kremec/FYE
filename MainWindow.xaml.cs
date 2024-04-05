@@ -4,15 +4,11 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
-using Syncfusion.Windows.Shared;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace FYE
 {
@@ -319,12 +315,22 @@ namespace FYE
                 cena = 0;
             }
 
-            string rezultat = "Cene presežkov za dane moči blokov: \n";
+            string rezultati = "Cene presežkov za dane moči blokov: \n";
             for (int i = 0; i < cenePresežkovPoDogovorjenihMočeh.Count(); i++)
             {
-                rezultat += $"{String.Format("{0:0.0}", Math.Round(ViewModel.MočBlokOd + i*0.1, 1, MidpointRounding.AwayFromZero))}: {String.Format("{0:0.000}", Math.Round(cenePresežkovPoDogovorjenihMočeh[i], 3, MidpointRounding.AwayFromZero))}\n";
+                rezultati += $"{String.Format("{0:0.0}", Math.Round(ViewModel.MočBlokOd + i*0.1, 1, MidpointRounding.AwayFromZero))}: {String.Format("{0:0.000}", Math.Round(cenePresežkovPoDogovorjenihMočeh[i], 3, MidpointRounding.AwayFromZero))}\n";
             }
-            MessageBox.Show(rezultat);
+            ExportTestValues(rezultati);
+        }
+        private void ExportTestValues(string content)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Izvozi izpis stroškov prekoračitev dogovorjenih moči";
+            saveFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                File.WriteAllText(saveFileDialog.FileName, content);
+            }
         }
 
         public void OnWindowClosing(object? sender, CancelEventArgs e)

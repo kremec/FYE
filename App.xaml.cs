@@ -1,20 +1,35 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using Newtonsoft.Json;
+using System.IO;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace FYE
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public App()
         {
-            //Register Syncfusion license
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF1cWWhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEZiW39ZcHJVQ2RYUkVzXg==");
+            string appPath = Directory.GetCurrentDirectory();
+            string licencePath = Path.Combine(appPath, "SyncfusionLicence.json");
+            string key = String.Empty;
+            if (!File.Exists(licencePath))
+            {
+                MessageBox.Show($"Could not find the licence key file in: {licencePath}", "ERROR");
+            }
+            else
+            {
+                LicenceKey licenceKey = JsonConvert.DeserializeObject<LicenceKey>(File.ReadAllText(licencePath));
+                if (licenceKey != null)
+                {
+                    key = licenceKey.Key;
+
+                }
+            }
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(key);
         }
+    }
+
+    public class LicenceKey()
+    {
+        public string Key { get; set; } = String.Empty;
     }
 }

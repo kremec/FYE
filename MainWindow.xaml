@@ -7,7 +7,7 @@
         xmlns:fye="clr-namespace:FYE"
         d:DataContext="{d:DesignInstance Type=fye:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="FYE" Height="700" Width="1050">
+        Title="FYE" Height="760" Width="1050">
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -18,7 +18,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10, 0">
             <Label FontWeight="Bold" Content="Časovni interval" Margin="0, 10, 0, 0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
@@ -78,9 +78,9 @@
                     <syncfusion:DoubleTextBox x:Name="DogovorjenaMočDo" Margin="10, 0" Width="50" NumberDecimalDigits="1" Value="{Binding MočBlokDo}" />
                     <TextBlock Text="kW" />
                 </StackPanel>
-                <Button x:Name="TestiranjeVrednostiButton" Content="Testiraj vrednosti" Click="TestiranjeVrednostiButton_Click" Margin="5" Padding="5"/>
+                <Button x:Name="TestiranjeVrednostiButton" Content="Izvozi test vrednosti" Click="TestiranjeVrednostiButton_Click" Margin="5" Padding="5"/>
             </StackPanel>
         </StackPanel>
-        <syncfusion:SfDataGrid x:Name="PodatkiDataGrid" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PodatkiOgled}" ColumnSizer="Auto" />
+        <syncfusion:SfDataGrid x:Name="PodatkiDataGrid" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding PodatkiOgled}" ColumnSizer="Auto" Margin="0, 10" />
     </Grid>
 </Window>
